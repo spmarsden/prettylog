@@ -92,6 +92,7 @@ def main() -> None:
         random_number = random.randint(1, 100)
         # Print the row with the random number.
         if i is 3:
+            # It is possible to change the log level for individual rows.
             table.row([f'Row {i+1}', f'{random_number}'], stream = LOGGER.warning)
         else:
             table.row([f'Row {i+1}', f'{random_number}'])
