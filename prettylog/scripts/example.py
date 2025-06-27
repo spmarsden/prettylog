@@ -64,12 +64,12 @@ def main() -> None:
     ## Print a simple table ####################################################
 
     prettylog.print_table(
-        headers=['Column 1', 'Column 2', 'Column 3'],
-        rows=[
+        [
             ['Row 1, Col 1', 'Row 1, Col 2', 'Row 1, Col 3'],
             ['Row 2, Col 1', 'Row 2, Col 2', 'Row 2, Col 3'],
             ['Row 3, Col 1', 'Row 3, Col 2', 'Row 3, Col 3']
         ],
+        headers=['Column 1', 'Column 2', 'Column 3'],
         stream = LOGGER.info
     )
 
@@ -93,11 +93,13 @@ def main() -> None:
         # Generate a random number.
         random_number = random.randint(1, 100)
         # Print the row with the random number.
-        if i is 3:
+        if i == 3:
             # It is possible to change the log level for individual rows.
-            table.row([f'Row {i+1}', f'{random_number}'], stream = LOGGER.warning)
+            table.row([f'{i+1}', f'{random_number}'], stream = LOGGER.warning)
         else:
-            table.row([f'Row {i+1}', f'{random_number}'])
+            table.row([f'{i+1}', f'{random_number}'])
+    # Close the table.
+    table.end()
 
 if __name__ == "__main__":
     main()
