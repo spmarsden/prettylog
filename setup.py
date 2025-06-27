@@ -20,7 +20,7 @@ setup(
     ],
     entry_points                  = {
         'console_scripts':[
-            'prettylog-example = script.prettylog-example:main',
+            'prettylog-example = scripts.prettylog-example:main',
         ],
     },
     python_requires               = '>=3.6',
