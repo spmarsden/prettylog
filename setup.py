@@ -3,12 +3,14 @@ from setuptools import setup
 with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read().strip()
 
-with open('version.txt', 'r', encoding='utf-8') as fh:
-    version = fh.read().strip()
+# Set the version number.
+__version__ = '1.0.2'
+with open('prettylog/_version.py', 'w', encoding='utf-8') as f:
+    f.write(f"__version__ = '{__version__}'\n")
 
 setup(
     name                          = 'prettylog',
-    version                       = version,
+    version                       = __version__,
     author                        = 'Stephen P Marsden',
     author_email                  = 'stephenpmarsden@gmail.com',
     description                   = 'Logging configuration and tools',
@@ -20,7 +22,7 @@ setup(
     ],
     entry_points                  = {
         'console_scripts': [
-            'prettylog-example=prettylog.scripts.example:main',
+            'prettylog-example=prettylog.example:main',
         ],
     },
     python_requires               = '>=3.6',

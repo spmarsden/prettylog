@@ -2,5 +2,5 @@
 
 A configuration for python logging and functions to make text output prettier.
 
-For examples of features and usage see [example.py](prettylog/scripts/example.py) which can be run after installation as
+For examples of features and usage see [example.py](prettylog/example.py) which can be run after installation as
 `prettylog-example`.
