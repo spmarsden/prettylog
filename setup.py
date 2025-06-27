@@ -4,7 +4,7 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read().strip()
 
 # Set the version number.
-__version__ = '1.0.2'
+__version__ = '1.1.0'
 with open('prettylog/_version.py', 'w', encoding='utf-8') as f:
     f.write(f"__version__ = '{__version__}'\n")
 
