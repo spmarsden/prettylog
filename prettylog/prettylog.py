@@ -2,7 +2,7 @@ import os
 import logging
 import colorama
 from pathlib import Path
-from typing import Callable, List, Any, Optional
+from typing import Callable, List, Any, Optional, Union
 from tabulate import tabulate
 
 TABLE_FORMAT = 'simple_outline'
@@ -47,25 +47,49 @@ def print_table(*args, stream:Callable=print, tablefmt:str=TABLE_FORMAT, **kwarg
 
     return
 
-def print_box(text: str, stream:Callable=print, fmt:str=BOX_FORMAT) -> None:
+def print_box(text: Union[Any,List[Any]], stream:Callable=print, tablefmt:str=BOX_FORMAT) -> None:
     """
     Print a box around the given text using tabulate to the given stream.
 
-    Example usage:
-        print_box('Hello, World!', stream=LOGGER.info)
+    Example 1:
+        print_box('Hello, World!')
 
-    Output:
-        ╔═══════════════╗
-        ║ Hello, World! ║
-        ╚═══════════════╝
+        Output:
+            ╔═══════════════╗
+            ║ Hello, World! ║
+            ╚═══════════════╝
+
+    Example 2:
+        print_box('A second example\nwith multiple lines.')
+        Output:
+            ╔══════════════════════╗
+            ║ A second example     ║
+            ║ with multiple lines. ║
+            ╚══════════════════════╝
+
+    Example 3:
+        print_box(
+            ['Another example', 'with multiple of lines.']
+        )
+
+        Output:
+            ╔══════════════════════╗
+            ║ Another example      ║
+            ║ with multiple lines. ║
+            ╚══════════════════════╝
 
     Args:
         text (str): The text to print in the box.
         stream (Callable): The stream to print to. Default is print.
-        fmt (str): The table format to use. Default is 'double_grid'.
+        tablefmt (str): The table format to use. See the documentation for tabulate for all options. Default is
+            'double_grid'.
     """
 
-    print_table([[text]], stream=stream, tablefmt=fmt)
+    # If the text is a list or tuple, join it into a single string with newlines.
+    if text.__class__ in [list, tuple]:
+        text = '\n'.join(str(t) for t in text)
+
+    print_table([[text]], stream=stream, tablefmt=tablefmt)
 
     return
 
@@ -276,8 +300,6 @@ def get_logging_config(log_file: Path, stream_log_level: int, colourful: bool=Tr
     }[stream_log_level]
 
     package_handlers.extend([
-            'error_rotating_file_handler',
-            'info_rotating_file_handler',
             'debug_rotating_file_handler'
     ])
 
@@ -315,24 +337,6 @@ def get_logging_config(log_file: Path, stream_log_level: int, colourful: bool=Tr
                 'maxBytes': 1048576,
                 'backupCount': 3
             },
-            'info_rotating_file_handler': {
-                'level': 'INFO',
-                'formatter': 'log-file',
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': log_file,
-                'mode': 'a',
-                'maxBytes': 1048576,
-                'backupCount': 3
-            },
-            'error_rotating_file_handler': {
-                'level': 'WARNING',
-                'formatter': 'log-file',
-                'class': 'logging.handlers.RotatingFileHandler',
-                'filename': log_file,
-                'mode': 'a',
-                'maxBytes': 1048576,
-                'backupCount': 3
-            }
         },
         'loggers': {
             '': {
