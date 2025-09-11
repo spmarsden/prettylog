@@ -6,24 +6,71 @@ from typing import Callable, List, Any, Optional
 from tabulate import tabulate
 
 TABLE_FORMAT = 'simple_outline'
+BOX_FORMAT   = 'double_grid'
 
 def print_table(*args, stream:Callable=print, tablefmt:str=TABLE_FORMAT, **kwargs) -> None:
-        """
-        Print a table using tabulate to the given stream.
+    """Print a table using tabulate to the given stream.
 
-        Args:
-            *args: Positional arguments to pass to tabulate.
-            stream (Callable): The stream to print to. Default is print.
-            **kwargs: Keyword arguments to pass to tabulate
-        """
+    Example usage:
+        print_table(
+            [
+                ['Alice',   30],
+                ['Bob',     25],
+                ['Charlie', 35]
+            ],
+            headers  = 
+                [
+                    'Name',
+                    'Age',
+                ],
+            floatfmt = ',.1f',
+            stream   = LOGGER.info,
+        )
+    
+    Output:
+        ┌─────────┬───────┐
+        │ Name    │   Age │
+        ├─────────┼───────┤
+        │ Alice   │    30 │
+        │ Bob     │    25 │
+        │ Charlie │    35 │
+        └─────────┴───────┘
+    
+    Args:
+        *args: Positional arguments to pass to tabulate.
+        stream (Callable): The stream to print to. Default is print.
+        **kwargs: Keyword arguments to pass to tabulate
+    """
 
-        for line in tabulate(*args, **kwargs, tablefmt=tablefmt).split('\n'):
-            stream(line)
+    for line in tabulate(*args, **kwargs, tablefmt=tablefmt).split('\n'):
+        stream(line)
 
-        return
+    return
+
+def print_box(text: str, stream:Callable=print, fmt:str=BOX_FORMAT) -> None:
+    """
+    Print a box around the given text using tabulate to the given stream.
+
+    Example usage:
+        print_box('Hello, World!', stream=LOGGER.info)
+
+    Output:
+        ╔═══════════════╗
+        ║ Hello, World! ║
+        ╚═══════════════╝
+
+    Args:
+        text (str): The text to print in the box.
+        stream (Callable): The stream to print to. Default is print.
+        fmt (str): The table format to use. Default is 'double_grid'.
+    """
+
+    print_table([[text]], stream=stream, tablefmt=fmt)
+
+    return
 
 class ContinuousTable:
-    def __init__(self, col_widths:List[int], col_align:List[str], stream:Callable=print):
+    def __init__(self, col_widths:List[int], col_align:List[str], stream:Callable=print) -> None:
         """
         Initialize a continuous table with the specified column widths and headers.
         """
@@ -159,12 +206,8 @@ class CustomFormatter(logging.Formatter):
         """
 
         # Get the black and white format for the given log level.
-        format = self.formats.get(level)
+        format = self.formats[level]
         
-        # Ensure the log level is valid.
-        if format is None:
-            raise ValueError(f"Invalid log level: {level}")
-
         # Add thread name to the format if threaded is True.
         if self._threaded:
             format = format.replace('%(levelname)-8s', '%(levelname)-8s | %(threadName)s')
