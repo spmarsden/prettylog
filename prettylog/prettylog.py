@@ -14,7 +14,7 @@ def init(Path: name, log_level: int) -> None:
     This should be called at the start of every script.
 
     Args:
-        name (str): The name of the module to initialise the logger for.
+        name (Path): The name of the module to initialise the logger for.
         log_level (int): The log level to set globally for the logger. Must be one of:
                 logging.DEBUG    (10)
                 logging.INFO     (20)
