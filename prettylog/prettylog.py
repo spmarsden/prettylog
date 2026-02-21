@@ -9,34 +9,17 @@ from tabulate import tabulate
 TABLE_FORMAT = 'simple_outline'
 BOX_FORMAT   = 'double_grid'
 
-def init(name: Path, log_level: int=logging.INFO) -> None:
-    """Initialise the logger.
-
-    This should be called at the start of every script.
-
-    Args:
-        name (Path): The name of the module to initialise the logger for. (Default
-            logging.INFO)
-        log_level (int): The log level to set globally for the logger. Must be one of:
-                logging.DEBUG    (10)
-                logging.INFO     (20)
-                logging.WARNING  (30)
-                logging.ERROR    (40)
-                logging.CRITICAL (50)
-    """
-
-    ## Set up logging ##########################################################
-
-    # The log file path.
-    log_file = get_cache_dir() / name / 'log.txt'
-    
-    # Set up logging config.
-    logging.config.dictConfig(
-        get_logging_config(
-            log_file         = log_file,
-            stream_log_level = log_level
-        )
-    )
+################################################################################
+# Example of how to initialise prettylog.
+#
+# import logging
+# import logging.config
+#
+# logging.config.dictConfig(
+#     get_logging_config("~/.cache/my-script/log.txt))
+# )
+#
+################################################################################
 
 def print_table(*args, stream:Callable=print, tablefmt:str=TABLE_FORMAT, **kwargs) -> None:
     """Print a table using tabulate to the given stream.
@@ -292,7 +275,7 @@ class CustomFormatter(logging.Formatter):
 
         return formatter.format(record)
 
-def get_logging_config(log_file: Path, stream_log_level: int, colourful: bool=True):
+def get_logging_config(log_file: Path, stream_log_level: int=logging.INFO, colourful: bool=True):
     """
     Get the logging configuration dictionary. The configuration includes
     stream handlers for different log levels, as well as rotating file
@@ -307,7 +290,8 @@ def get_logging_config(log_file: Path, stream_log_level: int, colourful: bool=Tr
     Args:
         log_name (Path): The path to the log file. Suggestion: 
             "~/.cache/<package_name>/<module_name>/<module_name>.log"
-        stream_log_level (int): The log level for the stream handler.
+        stream_log_level (int): The log level for the stream handler. (Default
+            logger.INFO)
         colourful (bool): Whether to use colours in the log output.
     """
 
