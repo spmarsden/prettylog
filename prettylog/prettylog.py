@@ -8,7 +8,7 @@ from tabulate import tabulate
 TABLE_FORMAT = 'simple_outline'
 BOX_FORMAT   = 'double_grid'
 
-def init(Path: name, log_level: int) -> None:
+def init(name: Path, log_level: int) -> None:
     """Initialise the logger.
 
     This should be called at the start of every script.
