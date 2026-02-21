@@ -9,13 +9,14 @@ from tabulate import tabulate
 TABLE_FORMAT = 'simple_outline'
 BOX_FORMAT   = 'double_grid'
 
-def init(name: Path, log_level: int) -> None:
+def init(name: Path, log_level: int=logging.INFO) -> None:
     """Initialise the logger.
 
     This should be called at the start of every script.
 
     Args:
-        name (Path): The name of the module to initialise the logger for.
+        name (Path): The name of the module to initialise the logger for. (Default
+            logging.INFO)
         log_level (int): The log level to set globally for the logger. Must be one of:
                 logging.DEBUG    (10)
                 logging.INFO     (20)
