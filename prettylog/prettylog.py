@@ -1,5 +1,6 @@
 import os
 import logging
+import logging.config
 import colorama
 from pathlib import Path
 from typing import Callable, List, Any, Optional, Union
