@@ -8,13 +8,19 @@ from tabulate import tabulate
 TABLE_FORMAT = 'simple_outline'
 BOX_FORMAT   = 'double_grid'
 
-def init(name: str, log_level: int) -> None:
+def init(Path: str, log_level: int) -> None:
     """Initialise the logger.
 
     This should be called at the start of every script.
 
     Args:
         name (str): The name of the module to initialise the logger for.
+        log_level (int): The log level to set globally for the logger. Must be one of:
+                logging.DEBUG    (10)
+                logging.INFO     (20)
+                logging.WARNING  (30)
+                logging.ERROR    (40)
+                logging.CRITICAL (50)
     """
 
     ## Set up logging ##########################################################
