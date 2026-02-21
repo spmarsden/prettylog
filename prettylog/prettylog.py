@@ -8,6 +8,28 @@ from tabulate import tabulate
 TABLE_FORMAT = 'simple_outline'
 BOX_FORMAT   = 'double_grid'
 
+def init(name: str, log_level: int) -> None:
+    """Initialise the logger.
+
+    This should be called at the start of every script.
+
+    Args:
+        name (str): The name of the module to initialise the logger for.
+    """
+
+    ## Set up logging ##########################################################
+
+    # The log file path.
+    log_file = get_cache_dir() / name / 'log.txt'
+    
+    # Set up logging config.
+    logging.config.dictConfig(
+        get_logging_config(
+            log_file         = log_file,
+            stream_log_level = log_level
+        )
+    )
+
 def print_table(*args, stream:Callable=print, tablefmt:str=TABLE_FORMAT, **kwargs) -> None:
     """Print a table using tabulate to the given stream.
 
